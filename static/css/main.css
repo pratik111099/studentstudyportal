@@ -207,3 +207,8 @@ footer .column a+a {
 .account-heading {
     font-size: 2.5rem;
 }
+
+#stuPort:hover {
+    color:white!important;
+    /* font-weight: bold; */
+}

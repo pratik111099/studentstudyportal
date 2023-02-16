@@ -1,0 +1,48 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class=' container'>
+    {% if search_results %}
+    <h2>Please click Below link for your search</h2>
+    {% for result in search_results %}
+    <div>
+        <div class="list-group">
+            <a href="{% url 'wikipediasearch' result %}" class="list-group-item list-group-item-action list-group-item-secondary">{{ result }}</a>
+          </div>
+    </div>
+    {% empty %}
+        <p>No results found.</p>
+    {% endfor %}
+
+    {% elif title %} 
+    <div class="container" >
+        <div class="content-section p-0 mt-1">
+            <a href="" class="p-3 m-0" >
+                <div class="custom-header" align="center">
+                    <h2>{{title}}</h2>
+                </div>
+            </a>
+
+            <hr class="p-0 m-0">
+            <p class="description m-2 p-2">
+                {{content| truncatewords:100}}
+                <button  class="btn btn-success btn-sm" ><a href="{{url}}" target="_blank">Read More</a></button>
+            </p>
+            <hr>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="container" align="center">
+        <h2>Search articles in wikipedia</h2>
+        <p>just enter the search query to obtain the results</p><b>Enter without any space</b>
+        <form action="" method="post" class="pt-3">
+            {{form}}
+            {% csrf_token %}
+            <input class="btn btn-danger btn-sm mb-1" type="submit" value="Submit">
+        </form><br>
+        </div>
+    {% endif %}
+</section>
+{% endblock content %}
