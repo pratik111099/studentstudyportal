@@ -24,7 +24,7 @@ urlpatterns = [
     path('wikipedia/',views.wikipedia_search,name='wikipedia'),
     path('wikipediasearch/<str:query>/',views.wikilistSearch,name='wikipediasearch'),
     
-    path('conversion/',views.conversion_view,name='conversion'),    
+    # path('conversion/',views.conversion_view,name='conversion'),    
     path('conversionm/',views.mass_conversion_view,name='conversionm'),    
     path('conversiont/',views.temp_conversion_view,name='conversiont'),    
   

@@ -8,14 +8,14 @@ import requests
 import wikipedia
 from decimal import Decimal
 from .utils import convert
-# from conversion_calculator import ConversionCalculator
-# from myapp.forms import ConversionForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # Notes View  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def home_view(request):
     return render(request,'dashboard/home.html')
 
+@login_required
 def notes_view(request):
     notes=Notes.objects.filter(user=request.user)
 
@@ -34,11 +34,13 @@ def notes_view(request):
     }
     return render(request,'dashboard/notes.html',context)
 
+@login_required
 def notesdelete_view(request,pk=None):
     note=Notes.objects.get(id=pk).delete()
     messages.warning(request,'Note Deleted')
     return redirect('notes')
 
+@login_required
 def notes_detail(request,pk):
     note=Notes.objects.get(id=pk)
     context={
@@ -50,6 +52,7 @@ def notes_detail(request,pk):
 
 
 # HomeWork View !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def homework_view(request):
     if request.method =="POST":
         form=HomeworkForm(request.POST)
@@ -73,9 +76,7 @@ def homework_view(request):
             homework.save()
             messages.success(request,'Homework is submited successfully')
             return redirect('homework')
-        else:
-           pass
-           
+      
             
 
     else:
@@ -95,7 +96,7 @@ def homework_view(request):
     return render(request,'dashboard/homework.html',context)
 
 
-
+@login_required
 def updatehomework(request,pk=None):
     homework=Homework.objects.get(id=pk)
     if homework.is_finish == True:
@@ -106,6 +107,7 @@ def updatehomework(request,pk=None):
     homework.save()
     return redirect('homework')
 
+@login_required
 def deletehomework(request,pk=None):
     home=Homework.objects.get(id=pk).delete()
     messages.success(request,'Homework deleted successfully')
@@ -113,6 +115,7 @@ def deletehomework(request,pk=None):
 
 
 # Youtube View   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def youtube_view(request):
     if request.method == "POST":
         form=SearchForm(request.POST)
@@ -154,6 +157,7 @@ def youtube_view(request):
 
 
 # To DO View   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def Todo_view(request):
     if request.method == "POST":
         form = ToDoForm(request.POST)
@@ -189,6 +193,7 @@ def Todo_view(request):
     }
     return render(request,'dashboard/todo.html',context)
 
+@login_required
 def StatusToDO(request,pk):
     todo=ToDo.objects.get(id=pk)
     if todo.status == True:
@@ -198,6 +203,7 @@ def StatusToDO(request,pk):
     todo.save()
     return redirect('todo')
 
+@login_required
 def DeleteToDO(request,pk):
     delete=ToDo.objects.get(id=pk).delete()
     return redirect('todo')
@@ -205,6 +211,7 @@ def DeleteToDO(request,pk):
 
 
 # Books View   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def Books_view(request):
     if request.method == "POST":
         form=SearchForm(request.POST)
@@ -244,6 +251,7 @@ def Books_view(request):
 
 
 # Dictionary View    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def Dictionary_view(request):
     if request.method == "POST":
         form=SearchForm(request.POST)
@@ -291,6 +299,7 @@ def Dictionary_view(request):
 
 
 # wikipedia View    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@login_required
 def wikipedia_search(request):
     if request.method == "POST":
         form=SearchForm(request.POST)
@@ -310,6 +319,7 @@ def wikipedia_search(request):
     return render(request, 'dashboard/wiki.html', context)
 
 
+@login_required
 def wikilistSearch(request,query):
     try:
         page = wikipedia.page(query)
@@ -332,12 +342,12 @@ def wikilistSearch(request,query):
 
 
 # Conversion View    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-def conversion_view(request,):
-    return render(request, 'dashboard/conversion.html')
+# @login_required
+# def conversion_view(request,):
+#     return render(request, 'dashboard/conversion.html')
    
 
-
+@login_required
 def mass_conversion_view(request):
     if request.method == 'POST':
         form = MassConversionForm(request.POST)
@@ -362,6 +372,7 @@ def mass_conversion_view(request):
     return render(request, 'dashboard/conversion.html', {'form': form})
 
 
+@login_required
 def temp_conversion_view(request):
     print(id)
     if request.method == 'POST':

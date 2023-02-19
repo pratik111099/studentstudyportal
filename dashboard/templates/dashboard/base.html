@@ -27,10 +27,11 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="{% url 'profile' %}">Profile</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -38,31 +39,28 @@
                 Options
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Books</a>
-                <a class="dropdown-item" href="#">Wikipedia</a>
-                <div class="dropdown-divider"></div>
-
-                <a class="dropdown-item" href="#">Dictionary</a>
-                <a class="dropdown-item" href="#">Youtube</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">To-do</a>
-                <a class="dropdown-item" href="#">Homework</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Notes</a>
-                <a class="dropdown-item" href="#">Conversion</a>
-                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'books' %}">Books</a>
+                <a class="dropdown-item" href="{% url 'wikipedia' %}">Wikipedia</a>
+                <a class="dropdown-item" href="{% url 'dictionary' %}">Dictionary</a>
+                <a class="dropdown-item" href="{% url 'youtube' %}">Youtube</a>
+                <a class="dropdown-item" href="{% url 'todo' %}">To-do</a>
+                <a class="dropdown-item" href="{% url 'homework' %}">Homework</a>
+                <a class="dropdown-item" href="{% url 'notes' %}">Notes</a>
+                <a class="dropdown-item" href="{% url 'conversionm' %}">Conversion</a>
+                {% comment %} <div class="dropdown-divider"></div> {% endcomment %}
               </div>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Register</a>
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
-            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -70,14 +68,23 @@
   </header>
   <br /><br />
   <main>
-
+    {% for message in messages %}
+    <div
+      class="alert alert-{{message.tags}} alert-dismissible fade show"
+      role="alert"
+    >
+      <strong>Message: </strong>{{message}}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
     
-    {% if messages %}
-      {% for msg in messages %}
-        <div class="alert alert-{{msg.tags}}">{{msg}}</div>
-      {% endfor %}
-      
-    {% endif %}
       
 
     {% block content %}
